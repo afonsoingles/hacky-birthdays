@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { prisma } from './db.js';
 
 export function scheduleBirthdayWishes(app) {
-    cron.schedule('* * * * *', async () => {
+    cron.schedule('0 * * * *', async () => {
         try {
             await checkBirthdays(app);
         } catch (error) {
