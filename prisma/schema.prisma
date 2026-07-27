@@ -4,19 +4,20 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model Birthday {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  SlackId   String   @unique
+  slackId   String   @unique
   date      DateTime
   timezone  String
+  sendAge Boolean  @default(false)
   lastAnnoundedYear Int?
   createdAt DateTime @default(now())
 }

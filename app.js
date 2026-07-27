@@ -1,50 +1,22 @@
+import 'dotenv/config';
 import { App } from '@slack/bolt';
+import { registerCommands } from './listeners/commands.js';
+import { registerViews } from './listeners/views.js';
+import { scheduleBirthdayWishes } from './cron.js';
 
-/**
- * This sample Slack application uses Socket Mode.
- * For the companion getting started setup guide, see:
- * https://docs.slack.dev/tools/bolt-js/getting-started/
- */
 
-// Initializes your app with your bot token and app token
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
-  socketMode: true,
+  socketMode: process.env.NODE_ENV !== 'production',
   appToken: process.env.SLACK_APP_TOKEN
 });
 
-// Listens to incoming messages that contain "hello"
-app.message('hello', async ({ message, say }) => {
-  // say() sends a message to the channel where the event was triggered
-  await say({
-    blocks: [
-      {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": `Hey there <@${message.user}>!`
-        },
-        "accessory": {
-          "type": "button",
-          "text": {
-            "type": "plain_text",
-            "text": "Click Me"
-          },
-          "action_id": "button_click"
-        }
-      }
-    ],
-    text: `Hey there <@${message.user}>!`
-  });
-});
+registerCommands(app);
+registerViews(app);
 
-app.action('button_click', async ({ body, ack, say }) => {
-  // Acknowledge the action
-  await ack();
-  await say(`<@${body.user.id}> clicked the button`);
-});
 
 (async () => {
-  // Start your app
-  app.logger.info('⚡️ Bolt app is running!');
+  await app.start(process.env.PORT || 3000);
+  scheduleBirthdayWishes(app);
+  app.logger.info('It is running!');
 })();
