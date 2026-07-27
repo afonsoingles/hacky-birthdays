@@ -17,7 +17,7 @@ registerViews(app);
 
 
 (async () => {
-  await app.start(port= process.env.PORT || 5873, host="0.0.0.0");
+  await app.start({ port: process.env.PORT || 5873, host: '0.0.0.0' });
   scheduleBirthdayWishes(app);
   app.logger.info('It is running!');
 })();
