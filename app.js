@@ -9,7 +9,16 @@ const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   socketMode: process.env.NODE_ENV !== 'production',
-  appToken: process.env.SLACK_APP_TOKEN
+  appToken: process.env.SLACK_APP_TOKEN,
+  customRoutes: [
+    {
+      path: '/health',
+      method: ['GET'],
+      handler: async (req, res) => {
+        res.status(200).send('OK');
+      }
+    }
+  ]
 });
 
 registerCommands(app);
