@@ -15,7 +15,8 @@ const app = new App({
       path: '/health',
       method: ['GET'],
       handler: async (req, res) => {
-        res.status(200).send('OK');
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('OK');
       }
     }
   ]
