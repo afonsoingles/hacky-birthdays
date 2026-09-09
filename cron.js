@@ -19,7 +19,8 @@ async function checkBirthdays(app) {
     for (const bday of birthdays) {
 
         const nowInUserTZ = DateTime.now().setZone(bday.timezone);
-        const isBirthdayToday = nowInUserTZ.hasSame(DateTime.fromJSDate(bday.date).setZone(bday.timezone), 'day') && nowInUserTZ.hasSame(DateTime.fromJSDate(bday.date).setZone(bday.timezone), 'month');
+        const bdayInUserTZ = DateTime.fromJSDate(bday.date).setZone(bday.timezone);
+        const isBirthdayToday = nowInUserTZ.month === bdayInUserTZ.month && nowInUserTZ.day === bdayInUserTZ.day;
         const wasAnnouncedThisYear = bday.lastAnnoundedYear === nowInUserTZ.year;
         const isAnnounceHour = nowInUserTZ.hour >= 9;
         console.log(`User: ${bday.slackId}, isBirthdayToday: ${isBirthdayToday}, wasAnnouncedThisYear: ${wasAnnouncedThisYear}, isAnnounceHour: ${isAnnounceHour}`);
