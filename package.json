@@ -11,7 +11,7 @@
   "dependencies": {
     "@prisma/client": "6.19.3",
     "@slack/bolt": "^5.0.0",
-    "dotenv": "^17.4.2",
+    "dotenv": "^18.0.3",
     "luxon": "^3.7.2",
     "node-cron": "^4.6.0",
     "prisma": "6.19.3"
